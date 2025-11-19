@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ModelType } from 'dynamoose/dist/General';
 import { User } from './user.entity';
 import { randomUUID } from 'node:crypto';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -10,25 +11,15 @@ export class UserService {
     private userModel: ModelType<User>,
   ) {}
 
-  public async create() {
+  public async create(email: string, password: string) {
+    const hashedPassword = await hash(password, 10);
+
     const users = await this.userModel.create({
-      id: randomUUID(),
-      'inventory::armor': ['Fullplate'],
-      'inventory::weapon': ['Longsword'],
+      userId: randomUUID(),
+      email: email,
+      password: hashedPassword,
     });
     return users;
-  }
-
-  public async addWeapon(id: string, weapon: string) {
-    const user = await this.userModel.get(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    user['inventory::weapon'].push(weapon);
-    await user.save();
-
-    return user;
   }
 
   public async index() {

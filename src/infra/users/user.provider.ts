@@ -1,8 +1,8 @@
 import { UserSchema } from './user.schema';
 import { User } from './user.entity';
-import * as dynamoose from 'dynamoose';
+import { model } from 'dynamoose';
 
-export const userProvider = {
+export const UserProvider = {
   provide: 'USER_MODEL',
-  useFactory: () => dynamoose.model<User>('User', UserSchema),
+  useFactory: () => model<User>('User', UserSchema),
 };

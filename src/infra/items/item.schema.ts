@@ -1,13 +1,14 @@
 import * as dynamoose from 'dynamoose';
 
-export const UserSchema = new dynamoose.Schema({
+export const ItemSchema = new dynamoose.Schema({
   userId: {
     type: String,
     hashKey: true,
   },
-  email: {
+  itemId: {
     type: String,
     rangeKey: true,
   },
-  password: String,
+  name: String,
+  type: String,
 });

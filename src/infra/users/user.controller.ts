@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 
-interface AddWeaponRequest {
-  weapon: string;
+interface CreateUserRequest {
+  email: string;
+  password: string;
 }
 
 @Controller('users')
@@ -10,16 +11,8 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('/')
-  public async create() {
-    return this.userService.create();
-  }
-
-  @Post('/:id/weapons')
-  public async addWeapon(
-    @Param('id') id: string,
-    @Body() body: AddWeaponRequest,
-  ) {
-    return this.userService.addWeapon(id, body.weapon);
+  public async create(@Body() body: CreateUserRequest) {
+    return this.userService.create(body.email, body.password);
   }
 
   @Get('/')
