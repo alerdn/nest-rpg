@@ -1,8 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ItemService } from './item.service';
+import { ItemService } from 'src/core/application/services/item-service';
 
 interface CreateItemRequest {
-  userId: string;
   name: string;
   type: string;
 }
@@ -13,6 +12,6 @@ export class ItemController {
 
   @Post('/')
   public async create(@Body() body: CreateItemRequest) {
-    return this.itemService.create(body.userId, body.name, body.type);
+    return this.itemService.create(body.name, body.type);
   }
 }

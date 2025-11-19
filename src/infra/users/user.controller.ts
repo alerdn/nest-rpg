@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from 'src/core/application/services/user-service';
 
 interface CreateUserRequest {
   email: string;
