@@ -4,6 +4,7 @@ import {
   DynamoDBDocumentClient,
   PutCommand,
   ScanCommand,
+  QueryCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { Inject } from '@nestjs/common';
 import { UserMapper } from './user.mapper';
@@ -37,9 +38,10 @@ export class DynamoDBUserRepository implements UserRepository {
 
   public async findByEmail(email: string): Promise<User | null> {
     const response = await this.repo.send(
-      new ScanCommand({
+      new QueryCommand({
         TableName: 'User',
-        FilterExpression: 'email = :email',
+        IndexName: 'user_email',
+        KeyConditionExpression: 'email = :email',
         ExpressionAttributeValues: {
           ':email': email,
         },
