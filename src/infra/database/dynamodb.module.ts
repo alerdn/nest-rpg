@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Env } from '../env';
-import * as dynamoose from 'dynamoose';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
 @Module({
   providers: [
@@ -22,14 +23,22 @@ import * as dynamoose from 'dynamoose';
             region: config.get('AWS_REGION', { infer: true }),
           };
 
-          const ddb = new dynamoose.aws.ddb.DynamoDB(dbConfig);
-          dynamoose.aws.ddb.set(ddb);
+          const client = new DynamoDBClient(dbConfig);
+          const docClient = DynamoDBDocumentClient.from(client);
+
+          return docClient;
         } else {
-          dynamoose.aws.ddb.local('http://localhost:8000');
+          const client = new DynamoDBClient({
+            region: 'local',
+            endpoint: 'http://localhost:8000',
+          });
+          const docClient = DynamoDBDocumentClient.from(client);
+
+          return docClient;
         }
       },
     },
   ],
   exports: ['DATABASE_CONNECTION'],
 })
-export class DatabaseModule {}
+export class DynamodbModule {}

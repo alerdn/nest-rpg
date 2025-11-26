@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from './database/database.module';
+// import { DynamooseModule } from './database/dynamoose.module';
 import { UserModule } from './users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { envSchema } from './env';
 import { ItemModule } from './items/item.module';
+import { DynamodbModule } from './database/dynamodb.module';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { ItemModule } from './items/item.module';
       isGlobal: true,
       validate: (env) => envSchema.parse(env),
     }),
-    DatabaseModule,
+    DynamodbModule,
     UserModule,
     ItemModule,
   ],

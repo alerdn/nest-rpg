@@ -1,4 +1,5 @@
 export interface ItemProps {
+  userId: string;
   itemId: string;
   name: string;
   type: string;
@@ -9,6 +10,10 @@ export class Item {
 
   static create(props: ItemProps): Item {
     return new Item(props);
+  }
+
+  get userId(): string {
+    return this.props.userId;
   }
 
   get itemId(): string {

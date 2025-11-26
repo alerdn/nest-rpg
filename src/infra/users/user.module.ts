@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { UserProvider } from './user.provider';
 import { UserController } from './user.controller';
 import { UserService } from 'src/core/application/services/user-service';
 import { UserRepository } from 'src/core/application/repositories/user-repository';
-import { DynamooseUserRepository } from './dynamoose-user.repository';
+import { DynamoDBUserRepository } from './dynamodb-user.repository';
+import { DynamodbModule } from '../database/dynamodb.module';
 
 @Module({
+  imports: [DynamodbModule],
   providers: [
-    UserProvider,
     {
       provide: UserRepository,
-      useClass: DynamooseUserRepository,
+      useClass: DynamoDBUserRepository,
     },
     UserService,
   ],
