@@ -25,4 +25,8 @@ export class UserService {
   public async index() {
     return this.userRepository.findAll();
   }
+
+  public async findByEmail(email: string) {
+    return this.userRepository.findByEmail(email);
+  }
 }

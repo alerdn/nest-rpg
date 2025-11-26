@@ -15,5 +15,6 @@ import { DynamodbModule } from '../database/dynamodb.module';
     UserService,
   ],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

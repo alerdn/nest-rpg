@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { envSchema } from './env';
 import { ItemModule } from './items/item.module';
 import { DynamodbModule } from './database/dynamodb.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { DynamodbModule } from './database/dynamodb.module';
       validate: (env) => envSchema.parse(env),
     }),
     DynamodbModule,
+    AuthModule,
     UserModule,
     ItemModule,
   ],

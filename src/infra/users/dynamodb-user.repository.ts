@@ -34,4 +34,23 @@ export class DynamoDBUserRepository implements UserRepository {
 
     return response.Items as User[];
   }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    const response = await this.repo.send(
+      new ScanCommand({
+        TableName: 'User',
+        FilterExpression: 'email = :email',
+        ExpressionAttributeValues: {
+          ':email': email,
+        },
+        Limit: 1,
+      }),
+    );
+
+    if (response.Items?.length) {
+      return response.Items[0] as User;
+    }
+
+    return null;
+  }
 }
